@@ -21,10 +21,17 @@ namespace AnyMind
         protected Canvas _canvas;
         protected float _initialZPosition;
         protected Vector2 _workPosition;
-		#endregion
-		#region MonoBehaviour Callbacks
-		// Start is called before the first frame update
-		void Start()
+        protected BallPusher _ballPusher;
+        protected bool _pauseListener = true;
+        public bool PauseListener
+		{
+            get { return _pauseListener; }
+            set { _pauseListener = value; }
+		}
+        #endregion
+        #region MonoBehaviour Callbacks
+        // Start is called before the first frame update
+        void Start()
         {
             Initialization();
         }
@@ -41,6 +48,7 @@ namespace AnyMind
             _parentCanvasRenderMode = GetComponentInParent<Canvas>().renderMode;
             _canvas = GetComponentInParent<Canvas>();
             _initialZPosition = transform.position.z;
+            _ballPusher = _ballMover.GetComponent<BallPusher>();
 		}
 
         protected virtual Vector3 GetWorldPosition(Vector3 testPosition)
@@ -61,12 +69,16 @@ namespace AnyMind
             if (_holding)
 			{
                 _newPosition = GetWorldPosition(_pointerEventData.position);
+                if (!_ballPusher.IsMoved)
+				{
+                    _ballPusher.IsMoved = true;
+				}
 			} else
 			{
-                _newPosition = Vector3.one * 5000f;
+                //_newPosition = Vector3.one * 5000f;
 			}
-            _newPosition.z = _initialZPosition;
-            _ballMover.position = _newPosition;
+            if (_pauseListener) return;
+            _ballMover.position = new Vector3(_newPosition.x, _ballMover.position.y, _ballMover.position.z);
 		}
 		#endregion
 		#region IPointerExitHandler & IPointerEnterHandler event receiver
