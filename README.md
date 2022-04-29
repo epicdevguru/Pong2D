@@ -1,2 +1,2 @@
-# block2d
+# Pong2d
  
