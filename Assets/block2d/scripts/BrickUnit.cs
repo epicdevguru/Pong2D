@@ -25,15 +25,18 @@ namespace AnyMind
         GameObject _breakParticle;
         [SerializeField]
         MMUIShaker _shaker;
-
+        [SerializeField]
+        GameObject[] _bonusPrefabs;
         #endregion
         #region Private Field
         BallManager _manager;
+        int _reducedLife =0;
 		#endregion
 		#region Public Methods
 		public void InitBrick(int life,  BallManager manager)
 		{
             _life = life;
+            _reducedLife = 0;
             _imgBrick.color = _arrColors[_life - 1];
             _manager = manager;
 		}
@@ -46,6 +49,7 @@ namespace AnyMind
             if (_ballMask == (_ballMask | (1 << collision.gameObject.layer))) 
 			{
                 _life--;
+                _reducedLife++;
                 collision.gameObject.GetComponent<BallController>().HitPusher();
                 if (_life > 0)
 				{
@@ -58,11 +62,29 @@ namespace AnyMind
                     v3ParticlePos.z = -100f;
                     GameObject objParticle = Instantiate(_breakParticle, transform.parent);
                     objParticle.transform.localPosition = v3ParticlePos;
+                    DropRandomBonusItem();
                     _manager.DestroyBrick(this);
+
                 }
 			}
 		}
-        #endregion
-    }
+		#endregion
+		#region Private Methods
+        private void DropRandomBonusItem()
+		{
+            int nBonusItemIndex = Random.Range(0, _bonusPrefabs.Length);
+            int nOccurenceRange = 30 * _reducedLife;
+            int nRandomChoose = Random.Range(0, 100);
+            if (_reducedLife > 1)
+                nRandomChoose = 0;
+            if (nOccurenceRange > nRandomChoose)
+			{
+                GameObject objBonus = Instantiate(_bonusPrefabs[nBonusItemIndex], transform.parent);
+                objBonus.transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -20f);
+                
+			}
+		}
+		#endregion
+	}
 }
 

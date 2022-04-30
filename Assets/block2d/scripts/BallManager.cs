@@ -37,8 +37,6 @@ namespace AnyMind
         GameObject _objSuccessPanel;
         [SerializeField]
         BrickSpawner[] _arrBrickSpawnPoints;
-        [SerializeField]
-        int[] BlockKindCounts;
         #endregion
         #region Private Field
         float _fWaitCount = 0;

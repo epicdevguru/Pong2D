@@ -26,11 +26,29 @@ namespace AnyMind
         #region Protected Field
         protected Vector2 _direction;
         Vector3 _v3InitialPos;
+        int _currentBonus = -1;
+        float _fBonusCount = 0;
+        float _fBonusDuration = 0;
 		#endregion
 		#region MonoBehaviour Callbacks
 		private void Start()
 		{
             _v3InitialPos = transform.position;
+		}
+
+		private void Update()
+		{
+			if (_currentBonus > -1)
+			{
+                if (_fBonusCount <= _fBonusDuration)
+				{
+                    _fBonusCount += Time.deltaTime;
+                    if (_fBonusCount > _fBonusDuration)
+					{
+                        ClearBonusBuff();
+                    }
+				} 
+			}
 		}
 		#endregion
 		#region Physics2D event Handler
@@ -40,9 +58,6 @@ namespace AnyMind
 			{
                 return;
 			}
-
-            //_direction = (collider.transform.position - this.transform.position).normalized;
-            //_direction.y = 1f;
             float pushForce = _initialForce;
             if (_isMoved)
             {
@@ -66,12 +81,14 @@ namespace AnyMind
             _targetBall.HitPusher();
 		}
 		#endregion
-
-        public void InitBallPusher ()
+		#region Public Methods
+		public void InitBallPusher ()
 		{
             _isMoved = false;
             transform.position = _v3InitialPos;
-		}
+            ClearBonusBuff();
+
+        }
 
         public void BallPusherMoved()
 		{
@@ -81,6 +98,30 @@ namespace AnyMind
 			}
 		}
 
-    }
+        public void ReceiveBonus(int effectKind, float fTime)
+		{
+            _currentBonus = effectKind;
+            _fBonusDuration = fTime;
+            _fBonusCount = 0;
+            switch (effectKind)
+			{
+                case 0:
+                    transform.localScale = new Vector3(2f, 1f, 1f);
+                    break;
+                case 1:
+                    transform.localScale = new Vector3(0.5f, 1f, 1f);
+                    break;
+			}
+        }
+		#endregion
+		#region Private Methods
+        private void ClearBonusBuff()
+		{
+            _currentBonus = -1;
+            _fBonusCount = 0;
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+		#endregion
+	}
 }
 
