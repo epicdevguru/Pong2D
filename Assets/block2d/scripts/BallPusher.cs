@@ -13,6 +13,8 @@ namespace AnyMind
         float _initialForce = 1f;
         [SerializeField]
         bool _isMoved = false;
+        [SerializeField]
+        BallManager _manager;
         public bool IsMoved
         {
             get { return _isMoved; }
@@ -38,18 +40,28 @@ namespace AnyMind
 			{
                 return;
 			}
+
             //_direction = (collider.transform.position - this.transform.position).normalized;
             //_direction.y = 1f;
-            Vector2 v2PosOffSet = (collider.transform.position - this.transform.position).normalized;
-            Vector2 moveDirection = _targetBall.GetMoveDirection();
-            _direction = new Vector2(moveDirection.x, -moveDirection.y);
-            _direction = (_direction.normalized + v2PosOffSet * 0.3f).normalized;
-            collider.attachedRigidbody.velocity = Vector2.zero;
             float pushForce = _initialForce;
             if (_isMoved)
-			{
+            {
                 pushForce = _force;
-			}
+            }
+            if (_manager.IsWaitStatus())
+			{
+                _direction = new Vector2(0, 1f);
+                pushForce = _initialForce;
+            } else
+			{
+                Vector2 v2PosOffSet = (collider.transform.position - this.transform.position).normalized;
+                Vector2 moveDirection = _targetBall.GetMoveDirection();
+                _direction = new Vector2(moveDirection.x, -moveDirection.y);
+                _direction = (_direction.normalized + v2PosOffSet * 0.3f).normalized;
+            }
+
+            collider.attachedRigidbody.velocity = Vector2.zero;
+            
             collider.attachedRigidbody.AddForce(_direction * pushForce);
             _targetBall.HitPusher();
 		}

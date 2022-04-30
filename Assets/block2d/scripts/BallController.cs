@@ -137,9 +137,9 @@ namespace AnyMind
 
         public void InitBallController ()
 		{
-            _v2PrevPos = transform.position;
             _listMoveDirection.Clear();
             transform.position = _v3InitialPos;
+            _v2PrevPos = transform.position;
             _rigidBody.velocity = Vector2.zero;
 		}
 
