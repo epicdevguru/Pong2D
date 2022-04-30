@@ -139,3 +139,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bonusKind: 0
   _duration: 5
+  _pusherMask:
+    serializedVersion: 2
+    m_Bits: 2048

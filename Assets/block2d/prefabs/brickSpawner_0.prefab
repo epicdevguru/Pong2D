@@ -96,3 +96,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _brickPrefab: {fileID: 6754970089614653289, guid: c21a6055e51cdc6418026a7bd5956e47, type: 3}
+  _life: 0
