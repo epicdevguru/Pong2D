@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using MoreMountains.NiceVibrations;
 namespace AnyMind
 {
+	/*******************************************
+	 * LifeIcon is nothing special but just
+	 * displaying the player's remain lives.
+	 * ****************************************/
     public class LifeIcon : MonoBehaviour
     {
 		#region Serialization Field

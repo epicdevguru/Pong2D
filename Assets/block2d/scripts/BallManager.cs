@@ -6,6 +6,14 @@ using UnityEngine.SceneManagement;
 using MoreMountains.NiceVibrations;
 namespace AnyMind
 {
+    /**************************************************
+     * BallManager is the overall level manager script.
+     * It initialize the scene components such as ball,
+     * ball pusher, touchZone etc and instantiate the
+     * bricks from brick spawners. 
+     * It also handles play state such as life lose, 
+     * fail, success, quiting game etc.
+     * ************************************************/
     public class BallManager : MonoBehaviour
     {
         #region Serialization Field
@@ -59,6 +67,7 @@ namespace AnyMind
 
 		#endregion
 		#region Private Method
+        //Waiting time counting whenever losing life and spawn with new life
         void CountWaitingTime()
 		{
             if (!_objWaiting.active)
@@ -109,12 +118,16 @@ namespace AnyMind
             _objFailPanel.SetActive(true);
             _objSuccessPanel.SetActive(false);
             _objWaiting.SetActive(false);
-		}
+            InitializeHandlers();
+
+        }
 		#endregion
 		#region Public Methods
 		public void LoseLife()
 		{
             if (_isFinished)
+                return;
+            if (_objFailPanel.active) // if failed status then wait
                 return;
             CurrentLife--;
             if (CurrentLife > -1)
@@ -131,7 +144,6 @@ namespace AnyMind
 			{
                 //respawn the ball and activate waiting panel
                 InitializeHandlers();
-
             }
 		}
 
@@ -144,15 +156,16 @@ namespace AnyMind
 			{
                 _objSuccessPanel.SetActive(true);
                 _isFinished = true;
+                InitializeHandlers();
             }
 		}
-
+        //Wait panel status of the time counts of  3, 2, 1 go
         public bool IsWaitStatus()
 		{
             return _objWaiting.active;
 		}
 
-        public void RestartLevel()
+        public void RestartLevel() // Initialize the game level scene again
 		{
             SpawnBricks();
             _objFailPanel.SetActive(false);

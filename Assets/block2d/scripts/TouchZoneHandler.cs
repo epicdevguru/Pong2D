@@ -5,6 +5,12 @@ using UnityEngine.EventSystems;
 
 namespace AnyMind
 {
+    /****************************************************************
+     * It is the script that handles the touch zone of the game.
+     * (the black area, where the player can drag ball pusher object,
+     * by their fingers. There are point event handlers and
+     * ball pusher's new position calculation functions.
+     * ************************************************************/
     public class TouchZoneHandler : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
     {
 		#region Serialization Field
@@ -73,11 +79,12 @@ namespace AnyMind
 				{
                     _ballPusher.IsMoved = true;
 				}
-			} else
-			{
-                //_newPosition = Vector3.one * 5000f;
 			}
-            if (_pauseListener) return;
+            if (_pauseListener)
+            {
+                _newPosition.x = 0;
+                return;
+            }
             _ballMover.position = new Vector3(_newPosition.x, _ballMover.position.y, _ballMover.position.z);
 		}
 		#endregion

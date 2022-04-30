@@ -5,6 +5,18 @@ using UnityEngine.UI;
 using MoreMountains.NiceVibrations;
 namespace AnyMind
 {
+    /**********************************************
+     * BrickUnit is Brick object's script.
+     * It is spawned from BrickSpawner and 
+     * It has life (1 ball hitting is reducing
+     * 1 life.) If lost all life then send
+     * info to BallManager script to count the
+     * broken bricks.
+     * When destroyed, it generates bonus item,
+     * 1 life bricks has 30% percentage of bonus 
+     * generation, others are 100% generating 
+     * bonus item.
+     * ******************************************/
     public class BrickUnit : MonoBehaviour
     {
         #region Serialization Field

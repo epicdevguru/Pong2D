@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace AnyMind
 {
+	/***************************************************
+	 * WallHandler is simple class and its work is
+	 * extending box collider 2D size of 4 walls based
+	 * on their stretched sizes in runtime.
+	 * ************************************************/
     public class WallHandler : MonoBehaviour
     {
 		#region protected Field
@@ -20,16 +25,12 @@ namespace AnyMind
 		#endregion
 
 		#region MonoBehaviour Callbacks
-		protected virtual void OnEnable()
-		{
-			InitializeColliderSize();
-		}
-
-		private void Awake()
+		private void Start()
 		{
 			InitializeColliderSize();
 		}
 		#endregion
+
 	}
 }
 

@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace AnyMind
 {
+	/************************************
+	 * This class is used for level design
+	 * with bricks and brick spawner is
+	 * only visible on editor's scene window.
+	 * **********************************/
     public class BrickSpawner : MonoBehaviour
     {
 		#region Serialization Field

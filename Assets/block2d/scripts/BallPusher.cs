@@ -4,6 +4,12 @@ using UnityEngine;
 
 namespace AnyMind
 {
+    /***************************************************
+     * BallPusher is pushs the ball whenever hit with it.
+     * It gives physical force to the ball whenever hitting,
+     * and collect the bonus items dropped from the broken
+     * bricks.
+     * *************************************************/
     public class BallPusher : MonoBehaviour
     {
         #region Serialization Field
